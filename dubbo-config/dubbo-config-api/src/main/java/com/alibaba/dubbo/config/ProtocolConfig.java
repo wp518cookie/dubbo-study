@@ -25,9 +25,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class ProtocolConfig extends AbstractConfig {
     private static final long serialVersionUID = 943094318144515234L;
 
-    //协议名称,支持常见的传输协议：RMI、Dubbo、Hessain、WebService、Http等
+    /**
+     * 协议名称,支持常见的传输协议：RMI、Dubbo、Hessain、WebService、Http等
+     */
     private String name;
-    //为空让dubbo自动获取本机ip
+    /**
+     * 为空让dubbo自动获取本机ip
+     */
     private String host;
     //dubbo协议缺省值为20880
     //rmi 为 1099

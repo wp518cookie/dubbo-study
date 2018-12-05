@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.alibaba.dubbo.registry;
+package com.alibaba.dubbo.registry.support;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
 import com.alibaba.dubbo.common.logger.Logger;
 import com.alibaba.dubbo.common.logger.LoggerFactory;
+import com.alibaba.dubbo.registry.Registry;
+import com.alibaba.dubbo.registry.RegistryFactory;
+import com.alibaba.dubbo.registry.RegistryService;
 
 import java.util.Collection;
 import java.util.Collections;

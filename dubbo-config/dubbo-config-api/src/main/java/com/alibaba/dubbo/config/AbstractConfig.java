@@ -475,7 +475,7 @@ public abstract class AbstractConfig implements Serializable {
         this.id = id;
     }
 
-    //todo 干嘛的？
+    //支持注解方式配置
     protected void appendAnnotation(Class<?> annotationClass, Object annotation) {
         Method[] methods = annotationClass.getMethods();
         for (Method method : methods) {
