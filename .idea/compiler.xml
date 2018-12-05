@@ -6,9 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="dubbo-cluster" />
         <module name="dubbo-common" />
-        <module name="dubbo-config" />
-        <module name="dubbo-remoting" />
+        <module name="dubbo-config-api" />
+        <module name="dubbo-monitor-api" />
+        <module name="dubbo-registry-api" />
+        <module name="dubbo-remoting-api" />
+        <module name="dubbo-rpc-api" />
       </profile>
     </annotationProcessing>
   </component>

@@ -371,6 +371,33 @@ public class ExtensionLoader<T> {
     }
 
     /**
+     * Get extension's instance. Return <code>null</code> if extension is not found or is not initialized. Pls. note
+     * that this method will not trigger extension load.
+     * <p>
+     * In order to trigger extension load, call {@link #getExtension(String)} instead.
+     *
+     * @see #getExtension(String)
+     */
+    /**
+     * 返回扩展点实例，如果没有指定的扩展点或是还没加载（即实例化）则返回<code>null</code>。注意：此方法不会触发扩展点的加载。
+     * <p/>
+     * 一般应该调用{@link #getExtension(String)}方法获得扩展，这个方法会触发扩展点加载。
+     *
+     * @see #getExtension(String)
+     */
+    @SuppressWarnings("unchecked")
+    public T getLoadedExtension(String name) {
+        if (name == null || name.length() == 0)
+            throw new IllegalArgumentException("Extension name == null");
+        Holder<Object> holder = cachedInstances.get(name);
+        if (holder == null) {
+            cachedInstances.putIfAbsent(name, new Holder<Object>());
+            holder = cachedInstances.get(name);
+        }
+        return (T) holder.get();
+    }
+
+    /**
      * Return the list of extensions which are already loaded.
      * <p>
      * Usually {@link #getSupportedExtensions()} should be called in order to get all extensions.

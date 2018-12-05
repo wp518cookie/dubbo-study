@@ -12,6 +12,10 @@
         <module>dubbo-common</module>
         <module>dubbo-config</module>
         <module>dubbo-remoting</module>
+        <module>dubbo-rpc</module>
+        <module>dubbo-registry</module>
+        <module>dubbo-cluster</module>
+        <module>dubbo-monitor</module>
     </modules>
 
     <properties>

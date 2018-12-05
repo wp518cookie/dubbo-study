@@ -3,24 +3,20 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>dubbo-study</artifactId>
+        <artifactId>dubbo-registry</artifactId>
         <groupId>com.ping.wu</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>dubbo-remoting</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>dubbo-registry-api</artifactId>
+    <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-    <modules>
-        <module>dubbo-remoting-api</module>
-    </modules>
     <dependencies>
         <dependency>
             <groupId>com.ping.wu</groupId>
-            <artifactId>dubbo-common</artifactId>
+            <artifactId>dubbo-cluster</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
 </project>
