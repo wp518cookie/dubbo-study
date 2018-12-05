@@ -1,13 +1,22 @@
 package com.alibaba.dubbo.common.bytecode;
 
+import com.alibaba.dubbo.common.utils.ClassHelper;
 import com.alibaba.dubbo.common.utils.ReflectUtils;
+import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
+import javassist.CtConstructor;
+import javassist.CtField;
+import javassist.CtMethod;
+import javassist.CtNewConstructor;
+import javassist.CtNewMethod;
 import javassist.LoaderClassPath;
+import javassist.NotFoundException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -110,6 +119,11 @@ public final class ClassGenerator {
 
     public String getClassName() {
         return mClassName;
+    }
+
+    public ClassGenerator setClassName(String name) {
+        mClassName = name;
+        return this;
     }
 
     public ClassGenerator addInterface(String cn) {
@@ -258,5 +272,94 @@ public final class ClassGenerator {
         return mPool;
     }
 
+    public Class<?> toClass(ClassLoader loader, ProtectionDomain pd) {
+        // mCtc 非空时，进行释放；下面会进行创建 mCtc
+        if (mCtc != null)
+            mCtc.detach();
+        long id = CLASS_NAME_COUNTER.getAndIncrement();
+        try {
+            CtClass ctcs = mSuperClass == null ? null : mPool.get(mSuperClass);
+            // 类名
+            if (mClassName == null)
+                mClassName = (mSuperClass == null || javassist.Modifier.isPublic(ctcs.getModifiers())
+                        ? ClassGenerator.class.getName() : mSuperClass + "$sc") + id;
+            // 创建 mCtc
+            mCtc = mPool.makeClass(mClassName);
+            // 继承类
+            if (mSuperClass != null)
+                mCtc.setSuperclass(ctcs);
+            // add dynamic class tag.
+            mCtc.addInterface(mPool.get(DC.class.getName())); // add dynamic class tag.
+            // 实现接口集合
+            if (mInterfaces != null)
+                for (String cl : mInterfaces) mCtc.addInterface(mPool.get(cl));
+            // 属性集合
+            if (mFields != null)
+                for (String code : mFields) mCtc.addField(CtField.make(code, mCtc));
+            // 方法集合
+            if (mMethods != null) {
+                for (String code : mMethods) {
+                    if (code.charAt(0) == ':')
+                        mCtc.addMethod(CtNewMethod.copy(getCtMethod(mCopyMethods.get(code.substring(1))), code.substring(1, code.indexOf('(')), mCtc, null));
+                    else
+                        mCtc.addMethod(CtNewMethod.make(code, mCtc));
+                }
+            }
+            // 空参数构造方法
+            if (mDefaultConstructor)
+                mCtc.addConstructor(CtNewConstructor.defaultConstructor(mCtc));
+            // 带参数构造方法
+            if (mConstructors != null) {
+                for (String code : mConstructors) {
+                    if (code.charAt(0) == ':') {
+                        mCtc.addConstructor(CtNewConstructor.copy(getCtConstructor(mCopyConstructors.get(code.substring(1))), mCtc, null));
+                    } else {
+                        String[] sn = mCtc.getSimpleName().split("\\$+"); // inner class name include $.
+                        mCtc.addConstructor(CtNewConstructor.make(code.replaceFirst(SIMPLE_NAME_TAG, sn[sn.length - 1]), mCtc));
+                    }
+                }
+            }
+//            mCtc.debugWriteFile("/Users/yunai/test/" + mCtc.getSimpleName().replaceAll(".", "/") + ".class");
+//            mCtc.debugWriteFile("/Users/yunai/test/" + mCtc.getSimpleName() + ".class");
+            // 生成
+            return mCtc.toClass(loader, pd);
+        } catch (RuntimeException e) {
+            throw e;
+        } catch (NotFoundException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        } catch (CannotCompileException e) {
+            throw new RuntimeException(e.getMessage(), e);
+        }
+    }
 
+    /**
+     * 释放
+     */
+    public void release() {
+        if (mCtc != null) mCtc.detach();
+        if (mInterfaces != null) mInterfaces.clear();
+        if (mFields != null) mFields.clear();
+        if (mMethods != null) mMethods.clear();
+        if (mConstructors != null) mConstructors.clear();
+        if (mCopyMethods != null) mCopyMethods.clear();
+        if (mCopyConstructors != null) mCopyConstructors.clear();
+    }
+
+    private CtClass getCtClass(Class<?> c) throws NotFoundException {
+        return mPool.get(c.getName());
+    }
+
+    private CtMethod getCtMethod(Method m) throws NotFoundException {
+        return getCtClass(m.getDeclaringClass()).getMethod(m.getName(), ReflectUtils.getDescWithoutMethodName(m));
+    }
+
+    private CtConstructor getCtConstructor(Constructor<?> c) throws NotFoundException {
+        return getCtClass(c.getDeclaringClass()).getConstructor(ReflectUtils.getDesc(c));
+    }
+
+    /**
+     * 动态编译接口，用于标记类是通过 {@link #ClassGenerator} 生成的
+     */
+    public static interface DC {
+    } // dynamic class tag interface.
 }
