@@ -9,6 +9,7 @@
         <module name="dubbo-cluster" />
         <module name="dubbo-common" />
         <module name="dubbo-config-api" />
+        <module name="dubbo-config-spring" />
         <module name="dubbo-monitor-api" />
         <module name="dubbo-registry-api" />
         <module name="dubbo-remoting-api" />
