@@ -14,6 +14,7 @@
         <module name="dubbo-registry-api" />
         <module name="dubbo-remoting-api" />
         <module name="dubbo-rpc-api" />
+        <module name="dubbo-rpc-injvm" />
       </profile>
     </annotationProcessing>
   </component>
