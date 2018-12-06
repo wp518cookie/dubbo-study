@@ -6,6 +6,7 @@ package com.alibaba.dubbo.common.extension;
  * 拓展工厂接口
  */
 
+@SPI
 public interface ExtensionFactory {
     /**
      * 获得拓展对象

@@ -16,6 +16,7 @@
         <module>dubbo-registry</module>
         <module>dubbo-cluster</module>
         <module>dubbo-monitor</module>
+        <module>dubbo-demo</module>
     </modules>
 
     <properties>

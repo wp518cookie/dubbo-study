@@ -474,7 +474,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
          Map<String, String> map = new HashMap();
          map.put(Constants.SIDE_KEY, Constants.PROVIDER_SIDE);
          map.put(Constants.DUBBO_VERSION_KEY, Version.getVersion());
-         map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis()));'
+         map.put(Constants.TIMESTAMP_KEY, String.valueOf(System.currentTimeMillis()));
          if (ConfigUtils.getPid() > 0) {
              map.put(Constants.PID_KEY, String.valueOf(ConfigUtils.getPid()));
          }

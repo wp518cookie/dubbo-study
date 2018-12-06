@@ -272,6 +272,10 @@ public final class ClassGenerator {
         return mPool;
     }
 
+    public Class<?> toClass() {
+        return toClass(ClassHelper.getClassLoader(ClassGenerator.class), getClass().getProtectionDomain());
+    }
+
     public Class<?> toClass(ClassLoader loader, ProtectionDomain pd) {
         // mCtc 非空时，进行释放；下面会进行创建 mCtc
         if (mCtc != null)
