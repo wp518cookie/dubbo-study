@@ -1,0 +1,1 @@
+telnet=com.alibaba.dubbo.remoting.telnet.codec.TelnetCodec
