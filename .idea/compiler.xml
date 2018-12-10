@@ -16,6 +16,7 @@
         <module name="dubbo-monitor-api" />
         <module name="dubbo-registry-api" />
         <module name="dubbo-remoting-api" />
+        <module name="dubbo-remoting-netty" />
         <module name="dubbo-rpc-api" />
         <module name="dubbo-rpc-default" />
         <module name="dubbo-rpc-injvm" />
