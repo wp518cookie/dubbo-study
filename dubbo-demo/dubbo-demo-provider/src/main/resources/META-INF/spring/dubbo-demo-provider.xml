@@ -25,9 +25,9 @@ limitations under the License.
     <dubbo:application name="demo-provider"/>
     <dubbo:provider delay="-1" retries="0">
     </dubbo:provider>
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+    <dubbo:registry id="zookeeper" address="zookeeper://127.0.0.1:2181"/>
     <bean id="demoService" class="com.alibaba.dubbo.demo.provider.DemoServiceImpl"/>
     <dubbo:service interface="com.alibaba.dubbo.demo.DemoService" group="g1" ref="demoService"
-                   deprecated="false" callbacks="1000" timeout="200000" accesslog="true">
+                   deprecated="false" callbacks="1000" timeout="200000" accesslog="true" registry="zookeeper">
     </dubbo:service>
 </beans>

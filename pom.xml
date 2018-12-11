@@ -17,6 +17,7 @@
         <module>dubbo-cluster</module>
         <module>dubbo-monitor</module>
         <module>dubbo-demo</module>
+        <module>hessian-lite</module>
     </modules>
 
     <properties>

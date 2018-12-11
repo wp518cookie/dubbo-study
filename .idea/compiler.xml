@@ -23,6 +23,7 @@
         <module name="dubbo-rpc-api" />
         <module name="dubbo-rpc-default" />
         <module name="dubbo-rpc-injvm" />
+        <module name="hessian-lite" />
       </profile>
     </annotationProcessing>
   </component>

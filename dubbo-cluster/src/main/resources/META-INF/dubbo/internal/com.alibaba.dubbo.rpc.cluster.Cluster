@@ -1,0 +1,2 @@
+mergeable=com.alibaba.dubbo.rpc.cluster.support.MergeableCluster
+failover=com.alibaba.dubbo.rpc.cluster.support.FailoverCluster
