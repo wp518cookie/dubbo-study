@@ -336,6 +336,8 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             }
         }
         // 泛化接口的实现
+        //  泛化调用就是服务消费者并没有服务的接口
+        // todo 怎么个流程？
         if (ref instanceof GenericService) {
             interfaceClass = GenericService.class;
             if (StringUtils.isEmpty(generic)) {
@@ -371,6 +373,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
             }
         }
         // 处理服务接口客户端本地代理( `stub` )相关
+        // todo stub作用？
         if (stub != null) {
             // 设为 true，表示使用缺省代理类名，即：接口名 + Stub 后缀
             if ("true".equals(stub)) {
@@ -556,8 +559,8 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
              if (revision != null && revision.length() > 0) {
                  map.put("revision", revision); // 修订本
              }
-
-             String[] methods = Wrapper.getWrapper(interfaceClass).getMethodNames(); // 获得方法数组
+             Wrapper wrapper = Wrapper.getWrapper(interfaceClass);
+             String[] methods = wrapper.getMethodNames(); // 获得方法数组
              if (methods.length == 0) {
                  logger.warn("NO method found in service interface " + interfaceClass.getName());
                  map.put("methods", Constants.ANY_VALUE);
@@ -595,7 +598,7 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
 
          // 创建 Dubbo URL 对象
          URL url = new URL(name, host, port, (contextPath == null || contextPath.length() == 0 ? "" : contextPath + "/") + path, map);
-
+         logger.info("----------待暴露的url：  " + url.toFullString());
          // 配置规则，参见《配置规则》https://dubbo.gitbooks.io/dubbo-user-book/demos/config-rule.html
          // TODO 8038 ServiceConfig 为啥判断了 url.protocol
          if (ExtensionLoader.getExtensionLoader(ConfiguratorFactory.class).hasExtension(url.getProtocol())) {
@@ -628,6 +631,9 @@ public class ServiceConfig<T> extends AbstractServiceConfig {
                              logger.info("Register dubbo service " + interfaceClass.getName() + " url " + url + " to registry " + registryURL);
                          }
                          // 使用Proxy创建Invoker 对象
+                         //dubbo://192.168.21.205:20880/com.alibaba.dubbo.demo.DemoService?accesslog=true&anyhost=true&application=demo-provider
+                         // &bind.ip=192.168.21.205&bind.port=20880&callbacks=1000&default.delay=-1&default.retries=0&delay=-1&deprecated=false
+                         // &dubbo=2.0.0&generic=false&group=g1&interface=com.alibaba.dubbo.demo.DemoService&methods=test&pid=6116&side=provider&timeout=200000&timestamp=1544583100608
                          Invoker<?> invoker = proxyFactory.getInvoker(ref,
                                  (Class) interfaceClass,
                                  registryURL.addParameterAndEncoded(Constants.EXPORT_KEY, url.toFullString()));

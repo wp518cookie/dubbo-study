@@ -16,6 +16,8 @@
  */
 package com.alibaba.dubbo.common.bytecode;
 
+import com.alibaba.dubbo.common.logger.Logger;
+import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.ClassHelper;
 import com.alibaba.dubbo.common.utils.ReflectUtils;
 
@@ -37,7 +39,7 @@ import java.util.regex.Matcher;
  * todo 对象作用
  */
 public abstract class Wrapper {
-
+    private static final Logger logger = LoggerFactory.getLogger(Wrapper.class);
     /**
      * Wrapper 对象缓存
      * key ：Wrapper 类。
@@ -305,7 +307,11 @@ public abstract class Wrapper {
         cc.addMethod(c2.toString());
         // 添加 `#invokeMethod(o, n, p, v)` 的代码到 `cc`
         cc.addMethod(c3.toString());
-
+        logger.info("-----------------wrapper针对class: " + c.getName() + " 生成的wrapper类开始-----------------");
+        logger.info(c1.toString());
+        logger.info(c2.toString());
+        logger.info(c3.toString());
+        logger.info("-----------------wrapper针对class: " + c.getName() + " 生成的wrapper类结束-----------------");
         try {
             // 生成类
             Class<?> wc = cc.toClass();

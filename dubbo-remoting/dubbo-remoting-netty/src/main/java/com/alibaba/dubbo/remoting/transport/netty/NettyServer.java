@@ -54,7 +54,7 @@ public class NettyServer extends AbstractServer implements Server {
         // 设置日志工厂
         NettyHelper.setNettyLoggerFactory();
 
-        // 创建线程池
+        // 创建线程池，守护线程
         ExecutorService boss = Executors.newCachedThreadPool(new NamedThreadFactory("NettyServerBoss", true));
         ExecutorService worker = Executors.newCachedThreadPool(new NamedThreadFactory("NettyServerWorker", true));
 
@@ -87,7 +87,7 @@ public class NettyServer extends AbstractServer implements Server {
             }
         });
         // 服务器绑定端口监听
-        // bind
+        // bind 一个非常特殊的IP：0.0.0.0, 相当于java中的this，代表当前设备的ip
         channel = bootstrap.bind(getBindAddress());
     }
 

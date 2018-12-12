@@ -85,6 +85,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
         beanDefinition.setLazyInit(false);
         // 解析配置对象的 id 。若不存在，则进行生成。
         String id = element.getAttribute("id");
+        // id没有拿name， name没有，protocolConfig就用dubbo，其他的用interface的值
         if ((id == null || id.length() == 0) && required) {
             // 生成 id 。不同的配置对象，会存在不同。
             String generatedBeanName = element.getAttribute("name");
@@ -95,6 +96,7 @@ public class DubboBeanDefinitionParser implements BeanDefinitionParser {
                     generatedBeanName = element.getAttribute("interface");
                 }
             }
+            //还没有，就用class的name值
             if (generatedBeanName == null || generatedBeanName.length() == 0) {
                 generatedBeanName = beanClass.getName();
             }

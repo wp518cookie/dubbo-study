@@ -254,6 +254,7 @@ public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean
                 setPath(beanName);
             }
         }
+        //todo 非延迟暴露怎么搞
         if (!isDelay()) {
             export();
         }
