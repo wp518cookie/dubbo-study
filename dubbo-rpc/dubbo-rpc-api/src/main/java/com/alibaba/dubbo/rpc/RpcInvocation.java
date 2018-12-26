@@ -18,6 +18,8 @@ package com.alibaba.dubbo.rpc;
 
 import com.alibaba.dubbo.common.Constants;
 import com.alibaba.dubbo.common.URL;
+import com.alibaba.dubbo.common.logger.Logger;
+import com.alibaba.dubbo.common.logger.LoggerFactory;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
@@ -33,6 +35,8 @@ import java.util.Map;
 public class RpcInvocation implements Invocation, Serializable {
 
     private static final long serialVersionUID = -4355285085441097045L;
+
+    private static final Logger logger = LoggerFactory.getLogger(RpcInvocation.class);
 
     /**
      * 方法名

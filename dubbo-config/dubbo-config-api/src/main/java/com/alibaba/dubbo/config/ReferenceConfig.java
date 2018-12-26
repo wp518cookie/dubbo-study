@@ -485,6 +485,9 @@ public class ReferenceConfig<T> extends AbstractReferenceConfig {
             }
 
             // 单 `urls` 时，引用服务，返回 Invoker 对象
+            // url示例：
+            // registry://127.0.0.1:2181/com.alibaba.dubbo.registry.RegistryService?application=demo-consumer&dubbo=2.0.0&pid=10998&refer=application=demo-consumer&callbacks=1000&dubbo=2.0.0&group=g1
+            // &interface=com.alibaba.dubbo.demo.DemoService&methods=test&pid=10998&register.ip=192.168.21.205&side=consumer&timeout=6000000&timestamp=1544667663663&registry=zookeeper&timestamp=1544667681102
             if (urls.size() == 1) {
                 // 引用服务
                 invoker = refprotocol.refer(interfaceClass, urls.get(0));

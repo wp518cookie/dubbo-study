@@ -24,7 +24,7 @@ limitations under the License.
     <!-- provider's application name, used for tracing dependency relationship -->
     <dubbo:application name="demo-consumer"/>
     <dubbo:registry id="zookeeper" address="zookeeper://127.0.0.1:2181"/>
-    <dubbo:reference id="demoService" interface="com.alibaba.dubbo.demo.DemoService" group="g1" registry="zookeeper"
+    <dubbo:reference id="demoService" interface="com.alibaba.dubbo.demo.DemoService" registry="zookeeper"
                    callbacks="1000" timeout="200000" >
     </dubbo:reference>
 </beans>

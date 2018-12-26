@@ -1,5 +1,7 @@
 package com.alibaba.dubbo.common.bytecode;
 
+import com.alibaba.dubbo.common.logger.Logger;
+import com.alibaba.dubbo.common.logger.LoggerFactory;
 import com.alibaba.dubbo.common.utils.ClassHelper;
 import com.alibaba.dubbo.common.utils.ReflectUtils;
 
@@ -23,6 +25,8 @@ import java.util.concurrent.atomic.AtomicLong;
  */
 
 public abstract class Proxy {
+    private static final Logger logger = LoggerFactory.getLogger(Proxy.class);
+
     public static final InvocationHandler RETURN_NULL_INVOKER = new InvocationHandler() {
         public Object invoke(Object proxy, Method method, Object[] args) {
             return null;
@@ -213,6 +217,9 @@ public abstract class Proxy {
             ccm.setSuperClass(Proxy.class);
             // 添加方法 #newInstance(handler)
             ccm.addMethod("public Object newInstance(" + InvocationHandler.class.getName() + " h){ return new " + pcn + "($1); }");
+            for (Class<?> meta : ics) {
+                logger.info("------------Proxy.java针对类： " + meta.getName() + "生成新的类");
+            }
             // 生成类
             Class<?> pc = ccm.toClass();
             // 创建 Proxy 对象

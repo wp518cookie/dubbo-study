@@ -19,6 +19,7 @@
         <module name="dubbo-registry-zookeeper" />
         <module name="dubbo-remoting-api" />
         <module name="dubbo-remoting-netty" />
+        <module name="dubbo-remoting-netty4" />
         <module name="dubbo-remoting-zookeeper" />
         <module name="dubbo-rpc-api" />
         <module name="dubbo-rpc-default" />

@@ -776,6 +776,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
         }
         List<Invoker<T>> invokers = null;
         Map<String, List<Invoker<T>>> localMethodInvokerMap = this.methodInvokerMap; // local reference
+        logger.info("----RegistryDirectory localMethodInvokerMap：" + localMethodInvokerMap.keySet());
         // 获得 Invoker 集合
         if (localMethodInvokerMap != null && localMethodInvokerMap.size() > 0) {
             // 获得方法名、方法参数

@@ -60,15 +60,16 @@ public class ExtensionLoader<T> {
      * 拓展加载器集合
      * <p>
      * key：拓展集合
+     * 方便。。看改成public
      */
-    private static final ConcurrentMap<Class<?>, ExtensionLoader<?>> EXTENSION_LOADERS = new ConcurrentHashMap();
+    public static final ConcurrentMap<Class<?>, ExtensionLoader<?>> EXTENSION_LOADERS = new ConcurrentHashMap();
     /**
      * 扩展实现类集合
      * <p>
      * key:扩展实现类
      * value:扩展对象，如key 为 Class<AccessLogFilter>， value为AccessLogFilter对象
      */
-    private static final ConcurrentMap<Class<?>, Object> EXTENSION_INSTANCES = new ConcurrentHashMap();
+    public static final ConcurrentMap<Class<?>, Object> EXTENSION_INSTANCES = new ConcurrentHashMap();
 
     //=============== 对象属性 ================
     /**
@@ -182,6 +183,10 @@ public class ExtensionLoader<T> {
 
     /**
      * 根据拓展点的接口，获得拓展加载器
+     * ExtensionLoader:扩展点加载器，负责加载该扩展实现
+     * 每一个扩展只会有一个对应的ExtensionLoader实例
+     * ExtensionFactory，用于加载扩展的实现
+     * 每个扩展点最多只能有一个自适应实现
      *
      * @param type 接口
      * @param <T>  泛型
@@ -659,7 +664,7 @@ public class ExtensionLoader<T> {
                         try {
                             // 获得属性
                             String property = method.getName().length() > 3 ? method.getName().substring(3, 4).toLowerCase() + method.getName().substring(4) : "";
-                            // 获得属性值
+                            // 获得属性值,爸爸求别再注入了，看不懂了要
                             Object object = objectFactory.getExtension(pt, property);
                             // 设置属性值
                             if (object != null) {
