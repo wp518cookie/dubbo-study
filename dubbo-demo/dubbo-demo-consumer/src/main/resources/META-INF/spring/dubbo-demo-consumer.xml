@@ -27,4 +27,5 @@ limitations under the License.
     <dubbo:reference id="demoService" interface="com.alibaba.dubbo.demo.DemoService" registry="zookeeper"
                    callbacks="1000" timeout="200000" >
     </dubbo:reference>
+    <dubbo:provider server = "netty4" client = "netty4"/>
 </beans>
